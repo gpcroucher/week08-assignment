@@ -7,8 +7,8 @@ export default function PostIdPage({ params }) {
     connectionString: process.env.DB_CONN_STRING,
   });
 
-  // return 1 post and many comments
-  // and a comment form to INSERT a new comment
+  // TODO return 1 post and many comments
+  // TODO and a comment form to INSERT a new comment
 
   return <>{getPost(id)}</>;
 
