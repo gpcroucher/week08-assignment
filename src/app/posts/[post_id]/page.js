@@ -10,7 +10,7 @@ export default function PostIdPage({ params }) {
   // TODO return 1 post and many comments
   // TODO and a comment form to INSERT a new comment
 
-  return <>{getPost(id)}</>;
+  return <>{getPost(post_id)}</>;
 
   async function getPost(id) {
     const post = (
