@@ -58,7 +58,7 @@ async function createTablePosts() {
 async function createTableUsers() {
   await db.query(`CREATE TABLE week08_users (
         user_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        name VARCHAR(255)
+        name VARCHAR(255) NOT NULL
         )`);
   console.log("Created users table.");
 }

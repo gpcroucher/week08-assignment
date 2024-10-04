@@ -14,7 +14,15 @@ export default function PostIdPage({ params }) {
 
   async function getPost(id) {
     const post = (
-      await db.query(`SELECT * FROM week08_posts WHERE post_id = $1`, [id])
+      await db.query(
+        `
+        SELECT * 
+        FROM week08_posts 
+        INNER JOIN week08_users AS users ON created_by = user_id
+        WHERE post_id = $1
+        `,
+        [id]
+      )
     ).rows[0];
     console.log("getting post with post_id =", id, "\n", post);
 
