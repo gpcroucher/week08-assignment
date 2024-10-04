@@ -2,7 +2,7 @@ import pg from "pg";
 import Post from "@/components/Post";
 
 export default function PostIdPage({ params }) {
-  const id = params.id;
+  const post_id = params.post_id;
   const db = new pg.Pool({
     connectionString: process.env.DB_CONN_STRING,
   });
