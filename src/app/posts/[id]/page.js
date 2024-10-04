@@ -1,4 +1,5 @@
 import pg from "pg";
+import Post from "@/components/Post";
 
 export default function PostIdPage({ params }) {
   const id = params.id;
@@ -6,14 +7,21 @@ export default function PostIdPage({ params }) {
     connectionString: process.env.DB_CONN_STRING,
   });
 
-  async function getPost(id) {
-    const post = await db.query(`SELECT * FROM week08_posts WHERE id = $1`, [
-      id,
-    ]);
-  }
-
-  // another query to SELECT comments WHERE post_id = id
-
   // return 1 post and many comments
   // and a comment form to INSERT a new comment
+
+  return <>{getPost(id)}</>;
+
+  async function getPost(id) {
+    const post = (
+      await db.query(`SELECT * FROM week08_posts WHERE post_id = $1`, [id])
+    ).rows[0];
+    console.log("getting post with post_id =", id, "\n", post);
+
+    if (post === undefined) {
+      return <p>Post not found</p>;
+    }
+
+    return <Post post={post} />;
+  }
 }
