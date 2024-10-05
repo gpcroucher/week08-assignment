@@ -27,6 +27,5 @@ export default function UserForm({ serverAction }) {
     const form = event.target;
     const username = new FormData(form).get("username");
     serverAction(username);
-    form.reset();
   }
 }
