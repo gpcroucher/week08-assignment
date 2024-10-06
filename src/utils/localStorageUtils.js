@@ -1,5 +1,3 @@
-"use client";
-
 export function getUsername() {
   const storedUsername = localStorage.getItem("username");
   if (storedUsername !== null && storedUsername.length > 0) {
