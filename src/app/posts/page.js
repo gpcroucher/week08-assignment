@@ -1,5 +1,3 @@
-// display a list of post titles, maybe with a little preview of each
-
 import pg from "pg";
 import Link from "next/link";
 
@@ -9,12 +7,15 @@ export default async function AllPostsPage() {
   });
 
   return (
-    <div>
-      {(await getPosts()).map(({ title, post_id }) => {
+    <div className="ml-4">
+      {(await getPosts()).map(({ title, post_id, name }) => {
         return (
           <div key={post_id}>
-            <Link href={`/posts/${post_id}`}>{title}</Link>
-            <br />
+            <span className="text-gray-500">{post_id}. </span>
+            <Link className="underline" href={`/posts/${post_id}`}>
+              {title}{" "}
+              <span className="italic text-sm text-gray-500">by {name}</span>
+            </Link>
           </div>
         );
       })}
@@ -22,9 +23,11 @@ export default async function AllPostsPage() {
   );
 
   async function getPosts() {
-    const posts = (await db.query(`SELECT title, post_id FROM week08_posts`))
-      .rows;
-    console.log(posts);
+    const posts = (
+      await db.query(
+        `SELECT title, post_id, name FROM week08_posts INNER JOIN week08_users ON created_by = user_id`
+      )
+    ).rows;
     return posts;
   }
 }
