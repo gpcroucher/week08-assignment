@@ -16,7 +16,10 @@ export default function PostIdPage({ params }) {
     const array = await getComments(id);
     return array.map(({ comment_id, comment_body, name, created_at }) => {
       return (
-        <div key={comment_id} className="pl-4 pb-4">
+        <div
+          key={comment_id}
+          className="w-fit ml-4 mb-4 border border-gray-500 p-1"
+        >
           <p>
             {name} @ {format(created_at, "E do MMM y, kk:mm:ss")}
           </p>

@@ -10,11 +10,17 @@ export default function CommentForm({ serverAction }) {
 
   return (
     <form onSubmit={handleSubmit} className="m-4 mt-0">
-      <label htmlFor="commentInput" className="align-middle">
-        Comment as {username}:
-      </label>
-      <textarea id="commentInput" name="comment" />
-      <button type="submit">Submit</button>
+      <div className="flex items-center gap-2">
+        <label htmlFor="commentInput" className="">
+          Comment as {username}:
+        </label>
+        <div className="flex flex-col flex-1 items-left">
+          <textarea id="commentInput" name="comment" className="" />
+          <button type="submit" className="border border-gray-500">
+            Submit
+          </button>
+        </div>
+      </div>
     </form>
   );
 
@@ -22,6 +28,10 @@ export default function CommentForm({ serverAction }) {
     event.preventDefault();
     const form = event.target;
     const data = Object.fromEntries(new FormData(form));
+    if (data.comment.trim().length === 0) {
+      return;
+    }
     serverAction({ ...data, username: getUsername() });
+    form.reset();
   }
 }
