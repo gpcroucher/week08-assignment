@@ -26,6 +26,7 @@ export default function UserForm({ serverAction }) {
     event.preventDefault();
     const form = event.target;
     const username = new FormData(form).get("username");
+    localStorage.setItem("username", username);
     serverAction(username);
   }
 }
