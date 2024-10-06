@@ -1,10 +1,10 @@
 import pg from "pg";
 import Post from "@/components/Post";
 import { notFound } from "next/navigation";
-import NotFound from "@/app/not-found";
 import CommentForm from "@/components/CommentForm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { format } from "date-fns";
 
 export default function PostIdPage({ params }) {
   const post_id = params.post_id;
@@ -12,13 +12,33 @@ export default function PostIdPage({ params }) {
     connectionString: process.env.DB_CONN_STRING,
   });
 
-  // TODO return 1 post and many comments
-  // TODO and a comment form to INSERT a new comment
+  async function displayComments(id) {
+    const array = await getComments(id);
+    return array.map(({ comment_id, comment_body, name, created_at }) => {
+      return (
+        <div key={comment_id} className="pl-4 pb-4">
+          <p>
+            {name} @ {format(created_at, "E do MMM y, kk:mm:ss")}
+          </p>
+          <p>{comment_body}</p>
+        </div>
+      );
+    });
+  }
+
+  async function getComments(id) {
+    const dbResult = await db.query(
+      `SELECT * FROM week08_comments INNER JOIN week08_users ON created_by = user_id WHERE post_id = $1`,
+      [id]
+    );
+    const comments = await dbResult.rows;
+    return comments;
+  }
 
   async function getPost(id) {
     // check that the ID param is actually a number
     if (isNaN(Number(id))) {
-      return NotFound();
+      return notFound();
     }
     const dbResult = await db.query(
       `
@@ -65,6 +85,7 @@ export default function PostIdPage({ params }) {
         {getPost(post_id)}
       </div>
       <CommentForm serverAction={serverSubmitComment} />
+      {displayComments(post_id)}
     </>
   );
 }
