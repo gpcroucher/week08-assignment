@@ -1,6 +1,7 @@
 import pg from "pg";
 import Post from "@/components/Post";
 import { notFound } from "next/navigation";
+import NotFound from "@/app/not-found";
 
 export default function PostIdPage({ params }) {
   const post_id = params.post_id;
@@ -14,8 +15,9 @@ export default function PostIdPage({ params }) {
   return <div>{getPost(post_id)}</div>;
 
   async function getPost(id) {
-    if (typeof id !== "number") {
-      notFound();
+    // check that the ID param is actually a number
+    if (isNaN(Number(id))) {
+      return NotFound();
     }
     const dbResult = await db.query(
       `
@@ -26,9 +28,7 @@ export default function PostIdPage({ params }) {
         `,
       [id]
     );
-    console.log("getting post with post_id =", id, "\n", dbResult);
     if (dbResult.rowCount === 0) {
-      console.log("post is undefined so notFound should fire now");
       notFound();
     }
 
