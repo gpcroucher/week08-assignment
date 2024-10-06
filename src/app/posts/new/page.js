@@ -28,7 +28,7 @@ export default function NewPostPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <div className="flex-1 flex flex-col items-center justify-center">
       <NewPostForm serverAction={serverSubmitPost} />
     </div>
   );

@@ -30,6 +30,7 @@ export default function PostIdPage({ params }) {
       return <p>Post not found</p>;
     }
 
+    console.log(post);
     return <Post post={post} />;
   }
 }

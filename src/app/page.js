@@ -22,7 +22,7 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <div className="h-screen flex-1 flex flex-col items-center justify-center">
       <h1 className="font-extrabold text-3xl">Welcome to CommentForm&trade;</h1>
       <UserForm serverAction={serverSubmitUsername} />
     </div>
