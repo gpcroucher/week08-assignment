@@ -12,7 +12,11 @@ export default function PostIdPage({ params }) {
   // TODO return 1 post and many comments
   // TODO and a comment form to INSERT a new comment
 
-  return <div>{getPost(post_id)}</div>;
+  return (
+    <div className="m-4 bg-gray-100 border-2 border-black">
+      {getPost(post_id)}
+    </div>
+  );
 
   async function getPost(id) {
     // check that the ID param is actually a number
