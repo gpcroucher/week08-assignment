@@ -1,4 +1,5 @@
 "use client";
+import { setUsername } from "@/utils/localStorageUtils";
 
 export default function UserForm({ serverAction }) {
   return (
@@ -26,7 +27,7 @@ export default function UserForm({ serverAction }) {
     event.preventDefault();
     const form = event.target;
     const username = new FormData(form).get("username");
-    localStorage.setItem("username", username);
+    setUsername(username);
     serverAction(username);
   }
 }

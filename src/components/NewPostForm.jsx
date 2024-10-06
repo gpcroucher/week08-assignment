@@ -1,4 +1,5 @@
 "use client";
+import { getUsername } from "@/utils/localStorageUtils";
 
 export default function NewPostForm({ serverAction }) {
   return (
@@ -15,15 +16,6 @@ export default function NewPostForm({ serverAction }) {
       </button>
     </form>
   );
-
-  function getUsername() {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername !== null && storedUsername.length > 0) {
-      return storedUsername;
-    } else {
-      return "anonymous";
-    }
-  }
 
   function handleSubmit(event) {
     event.preventDefault();
