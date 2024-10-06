@@ -1,5 +1,6 @@
 import pg from "pg";
 import Post from "@/components/Post";
+import { notFound } from "next/navigation";
 
 export default function PostIdPage({ params }) {
   const post_id = params.post_id;
@@ -10,27 +11,28 @@ export default function PostIdPage({ params }) {
   // TODO return 1 post and many comments
   // TODO and a comment form to INSERT a new comment
 
-  return <>{getPost(post_id)}</>;
+  return <div>{getPost(post_id)}</div>;
 
   async function getPost(id) {
-    const post = (
-      await db.query(
-        `
+    if (typeof id !== "number") {
+      notFound();
+    }
+    const dbResult = await db.query(
+      `
         SELECT * 
         FROM week08_posts 
         INNER JOIN week08_users AS users ON created_by = user_id
         WHERE post_id = $1
         `,
-        [id]
-      )
-    ).rows[0];
-    console.log("getting post with post_id =", id, "\n", post);
-
-    if (post === undefined) {
-      return <p>Post not found</p>;
+      [id]
+    );
+    console.log("getting post with post_id =", id, "\n", dbResult);
+    if (dbResult.rowCount === 0) {
+      console.log("post is undefined so notFound should fire now");
+      notFound();
     }
 
-    console.log(post);
+    const post = dbResult.rows[0];
     return <Post post={post} />;
   }
 }
